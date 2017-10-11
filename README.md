@@ -3,7 +3,7 @@
 
 ## Table of Contents
 1. [Assignment](#assignment)
-2. [Grading Breakdown](#grading-breakdown)
+2. [Task](#task)
 3. [Tips](#tips)
 4. [Rules](#rules)
 5. [Environment Setup Guide](#environment-setup-guide)
@@ -11,13 +11,14 @@
 
 ## Assignment
 
-#### Task
-
 **The Basic Goal** : Create an API for a task management / todo list.
 
 **The Fun Goal** : Imagine your hot new startup, Llama.io, is creating the best todo webapp on the market. You're competing in a crowded space with hot players like Asana, Wunderlist, Google Keep, etc, so your API has to be top-notch.
 
-Implement an 
+#### Task
+
+ Implement an API with the following end-points (they would be preceded by something like http://localhost:4000/api/). Your implementation should use Node, Express and Mongoose.
+
 
 | Endpoints| Actions | Intended Outcome                                    |
 |----------|---------|-----------------------------------------------------|
@@ -84,7 +85,8 @@ Here is the Task Schema:
 #### Requirements
 
 1. Your database should be on [mLab](http://www.mlab.com). It should contain at least 20 users and 100 tasks (about half of which should be completed) (**We will provide you a script to do this**).
-+ Responses from your API should be a JSON object with two fields. The first field should be named `message` and should contain a human readable String. The second field should be named `data` and should contain the actual JSON response object. For example, here is a valid response:
+
+2. Responses from your API should be a JSON object with two fields. The first field should be named `message` and should contain a human readable String. The second field should be named `data` and should contain the actual JSON response object. For example, here is a valid response:
 
 ```javascript
 {
@@ -97,20 +99,23 @@ Here is the Task Schema:
 }
 ```
 
-+ Error responses from your API should also also be a JSON object with a `message` and `data` fields. Messages have to sensible and human readable so that on the client side it can be displayed to the user. Also, it should be independent of the server side technology that you are using. For example, your API should not return an error message directly from Mongoose to the client. For examples of error messages, take a look at the API reference implementation that we have provided.
-+ Your API should respond with appropriate [HTTP status codes](http://www.restapitutorial.com/httpstatuscodes.html) for both successful and error responses. You should at least have the following codes: 200 (success), 201 (created), 404 (not found), 500 (server error).
-+ You should implement the query string functionality by using the methods provided by Mongoose (as opposed to querying Mongoose for all the results and then doing the filtering/sorting/skipping etc. in your Node/Express application code).
-+ Have server side validation for:
-    + Users cannot be created (or updated) without a name or email. All other fields that the user did not specify should be set to reasonable values.
-    + Multiple users with the same email cannot exist.
-    + Tasks cannot be created (or updated) without a name or a deadline. All other fields that the user did not specify should be set to reasonable values.
-+ In terms of code, your routes can be defined in the `server.js` file. Your Mongoose models should however all be under the `models` directory. 
+3. Error responses from your API should also also be a JSON object with a `message` and `data` fields. Messages have to sensible and human readable so that on the client side it can be displayed to the user. Also, it should be independent of the server side technology that you are using. For example, your API should not return an error message directly from Mongoose to the client. For examples of error messages, take a look at the API reference implementation that we have provided.
 
-#### Grading Breakdown
+4. Your API should respond with appropriate [HTTP status codes](http://www.restapitutorial.com/httpstatuscodes.html) for both successful and error responses. You should at least have the following codes: 200 (success), 201 (created), 404 (not found), 500 (server error).
+
+5. You should implement the query string functionality by using the methods provided by Mongoose (as opposed to querying Mongoose for all the results and then doing the filtering/sorting/skipping etc. in your Node/Express application code).
+
+6. Have server side validation for:
+    - Users cannot be created (or updated) without a name or email. All other fields that the user did not specify should be set to reasonable values.
+    - Multiple users with the same email cannot exist.
+    - Tasks cannot be created (or updated) without a name or a deadline. All other fields that the user did not specify should be set to reasonable values.
+
+7. In terms of code, your routes can be defined in the `server.js` file. Your Mongoose models should however all be under the `models` directory. 
 
 ## Tips
   - Start early!
   - Please DO NOT delete the `.gitignore file` from the project
+  - Check out [Postman](https://www.getpostman.com/postman) to your API
 
 ## Rules
 1. This is an individual assignment. No collaboration is permitted.
@@ -123,8 +128,8 @@ Here is the Task Schema:
 2. Install dependencies:
 `npm install`
 3. Run the dev server:
-`npm run dev`
-4. Open a browser and go to `http://localhost:8080/` to view your page. You should see "Welcome to MP2!".
+`npm start` or 
+`nodemon --exec node server.js` to automatically restart the server on save.
 
 ## Submission Details
 1. [Submission Form](https://uiuc-web-programming.github.io/fa17/)
