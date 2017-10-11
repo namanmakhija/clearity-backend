@@ -109,8 +109,6 @@ Here is the Task Schema:
     - Multiple users with the same email cannot exist.
     - Tasks cannot be created (or updated) without a name or a deadline. All other fields that the user did not specify should be set to reasonable values.
 
-7. In terms of code, your routes can be defined in the `server.js` file. Your Mongoose models should however all be under the `models` directory. 
-
 ## Tips
   - Start early!
   - Please DO NOT delete the `.gitignore file` from the project
