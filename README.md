@@ -83,7 +83,7 @@ Here is the Task Schema:
 
 #### Requirements
 
-1. Your database should be on [mLab](http://www.mlab.com). It should contain at least 20 users and 100 tasks (about half of which should be completed) (**We will provide you a script to do this**).
+1. Your database should be on [mLab](http://www.mlab.com). It should contain at least 20 users and 100 tasks (about half of which should be completed) (**We provided scripts for you in the database_scripts folder**).
 
 2. Responses from your API should be a JSON object with two fields. The first field should be named `message` and should contain a human readable String. The second field should be named `data` and should contain the actual JSON response object. For example, here is a valid response:
 
