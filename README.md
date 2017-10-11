@@ -83,7 +83,7 @@ Here is the Task Schema:
 
 #### Requirements
 
-1. Your database should be on [mLab](http://www.mlab.com). It should contain at least 20 users and 100 tasks (about half of which should be completed) (**We provided scripts for you in the database_scripts folder**).
+1. Your database should be on [mLab](http://www.mlab.com). It should contain at least 20 users and 100 tasks (about half of which should be completed) (**We provided scripts for you in the database_scripts folder. Read below how to use these scripts**).
 
 2. Responses from your API should be a JSON object with two fields. The first field should be named `message` and should contain a human readable String. The second field should be named `data` and should contain the actual JSON response object. For example, here is a valid response:
 
@@ -115,6 +115,26 @@ Here is the Task Schema:
   - Start early!
   - Please DO NOT delete the `.gitignore file` from the project
   - Check out [Postman](https://www.getpostman.com/postman) to your API
+
+#### How to use the DB Scripts
+
+Assuming your API is fully operational (you need to have implement /users and /tasks endpoints for your API), these scripts will populate and clear your database as needed.
+ 
+**dbClean.py**
+ 
+`python dbClean.py -u "yoururl.com" -p 4000 `
+
+You can change "yoururl.com" and the port number to match your own database. Leave the quotation marks. DO NOT include "/api/" or "/user" etc. If these parameters are not specified, this script will, by default, clear out the http://uiucwp.com:4000 database.
+ 
+**dbFill.py**
+ 
+`python dbFill.py -u "yoururl.com" -p 4000 -n 10 -t 30`
+
+Once again, change the url and port number to match your database. You can populate your database with X users and Y tasks (in the above case, 10 and 30 respectively). This will randomly generate users with realistic names and emails as well as realistic tasks. Tasks will have a 50% chance of being completed and a 60% chance of being assigned. If num_tasks >> num_users, users will likely have multiple tasks assigned to them. A task will have one assigned user at most.
+ 
+**task.txt**
+ 
+Contains sample task descriptions. Edit if you want, I don't care.  
 
 ## Rules
 1. This is an individual assignment. No collaboration is permitted.
