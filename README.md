@@ -3,11 +3,10 @@
 
 ## Table of Contents
 1. [Assignment](#assignment)
-2. [Task](#task)
-3. [Tips](#tips)
-4. [Rules](#rules)
-5. [Environment Setup Guide](#environment-setup-guide)
-6. [Submission Details](#submission-details)
+2. [Tips](#tips)
+3. [Rules](#rules)
+4. [Environment Setup Guide](#environment-setup-guide)
+5. [Submission Details](#submission-details)
 
 ## Assignment
 
