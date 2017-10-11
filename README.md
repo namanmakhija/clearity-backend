@@ -116,7 +116,7 @@ Here is the Task Schema:
   - Please DO NOT delete the `.gitignore file` from the project
   - Check out [Postman](https://www.getpostman.com/postman) to your API
 
-#### How to use the DB Scripts
+### How to use the DB Scripts
 
 Assuming your API is fully operational (you need to have implement /users and /tasks endpoints for your API), these scripts will populate and clear your database as needed.
  
