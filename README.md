@@ -150,4 +150,4 @@ Contains sample task descriptions. Edit if you want, I don't care.
 
 ## Submission Details
 1. [Submission Form](https://goo.gl/forms/uEawyS1GaDNk8xaN2)
-2. You need to also submit at [the submission website](http://uiucwp.com) 
+2. You need to also submit at [the submission website](http://uiucwp.com)
