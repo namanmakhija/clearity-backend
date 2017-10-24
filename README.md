@@ -1,5 +1,5 @@
 # MP #3: APIed Piper
-### Due: October 30th, 2017, 11.59PM CDT
+### Due: November 6th, 2017, 11.59PM CDT
 
 ## Table of Contents
 1. [Assignment](#assignment)
