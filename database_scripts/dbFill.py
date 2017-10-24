@@ -38,7 +38,7 @@ def main(argv):
 
     # Server Base URL and port
     baseurl = "www.uiucwp.com"
-    port = 4000
+    port = 3000
 
     # Number of POSTs that will be made to the server
     userCount = 50
@@ -84,7 +84,7 @@ def main(argv):
         x = randint(0,99)
         y = randint(0,99)
         params = urllib.urlencode({'name': firstNames[x] + " " + lastNames[y], 'email': firstNames[x] + "@" + lastNames[y] + ".com"})
-        
+
         # POST the user
         conn.request("POST", "/api/users", params, headers)
         response = conn.getresponse()
