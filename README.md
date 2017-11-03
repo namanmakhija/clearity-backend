@@ -23,18 +23,16 @@
 |----------|---------|-----------------------------------------------------|
 | users    | GET     | Respond with a List of users                        |
 |          | POST    | Create a new user. Respond with details of new user |
-|          | OPTIONS | See the query parameters below                      |
 | users/:id| GET     | Respond with details of specified user or 404 error |
 |          | PUT     | Replace entire user with supplied user or 404 error |
 |          | DELETE  | Delete specified user or 404 error                  |
 | tasks    | GET     | Respond with a List of tasks                        |
 |          | POST    | Create a new task. Respond with details of new task |
-|          | OPTIONS | See the query parameters below                      |
 | tasks/:id| GET    | Respond with details of specified task or 404 error  |
 |          | PUT     | Replace entire task with supplied task or 404 error |
 |          | DELETE  | Delete specified user or 404 error                  |
 
-In addition, the API has the following JSON encoded query string parameters for the GET requests to the `users` and `tasks` endpoints:
+**NOTE**: In addition, the API has the following JSON encoded query string parameters for the GET requests to the `users` and `tasks` endpoints:
 
 | Parameter | Description                                                                                  |
 |----------|----------------------------------------------------------------------------------------------|
