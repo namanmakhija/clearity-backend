@@ -1,3 +1,6 @@
+
+var Class = require('../models/class');
+
 module.exports = function(router, passport) {
 
     router.post('/register',
@@ -28,11 +31,62 @@ module.exports = function(router, passport) {
         res.status(200).json({ message: "logged out "});
     });
 
-    router.get('/ping', function(req, res) {
-        res.status(200).send("pong");
-    });
 
     router.get('/home', function(req, res) {
+        res.status(200).json(req.user.classes);
+
+    });
+
+    router.put('/add-class', function(req, res){
+        var user = req.user;
+
+        if(!req.hasOwnProperty("body")){
+            res.status(500).json({message:"body not found"});
+        }
+        var request = req.body;
+        if(!request.hasOwnProperty("course")){
+            res.status(500).json({message: "invalid post information", send: request.body})
+        }
+        else{
+            var updateUser = require('mongoose').model('User');
+            var updatedUser = user;
+            updatedUser.classes.push(request.course);
+
+            updateUser.findByIdAndUpdate(user, updatedUser, {new: true}, function (err, result) {
+                res.send('yes');
+            });
+        }
+
+
+    });
+
+    router.post('/create-class', function(req, res){
+        var user = req.user;
+        if(!req.hasOwnProperty("body")){
+            res.status(500).json({message:"body not found"});
+        }
+        var request = req.body;
+        var is_instructor = user.is_instructor;
+        if(is_instructor){
+            if(!request.hasOwnProperty("course")){
+                res.status(500).json({message: "invalid post information", send: request.body})
+            }
+            else{
+                var newClass = new Class();
+                newClass.course = request.course;
+                newClass.instructor = [user.email];
+
+                newClass.save(function(err) {
+                    res.status(200).json({message: "success"});
+                });
+
+            }
+
+        }
+        else{
+            res.status(500).json({message: "Permission denied"});
+
+        }
 
     });
 
