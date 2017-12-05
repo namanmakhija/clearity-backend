@@ -32,6 +32,10 @@ module.exports = function(router, passport) {
         res.status(200).send("pong");
     });
 
+    router.get('/home', function(req, res) {
+
+    });
+
     return router;
 }
 
