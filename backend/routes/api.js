@@ -1,6 +1,6 @@
 
 var Class = require('../models/class');
-
+var randomString = require('random-string');
 module.exports = function(router, passport) {
 
     router.post('/register',
@@ -33,7 +33,7 @@ module.exports = function(router, passport) {
 
 
     router.get('/home', function(req, res) {
-        res.status(200).json(req.user.classes);
+        res.status(200).json({course_title: req.user.classes, course_id: req.user.course_ids});
 
     });
 
@@ -50,16 +50,34 @@ module.exports = function(router, passport) {
         else{
             var updateUser = require('mongoose').model('User');
             var updatedUser = user;
-            updatedUser.classes.push(request.course);
+            // course will be the courseId only
+            var courseId = request.course;
+            // will check if class exists
+            var existing_class = require('mongoose').model('Class');
+            existing_class.findOne({course_id: courseId}, function(err, result){
+                if(err || result === null){
+                    res.send('Class not found');
+                }
+                else{
+                    var course_name = result.course;
+                    // adds course title
+                    updatedUser.classes.push(course_name);
+                    // adds course id
+                    updatedUser.course_ids.push(courseId);
 
-            updateUser.findByIdAndUpdate(user, updatedUser, {new: true}, function (err, result) {
-                res.send('yes');
+                    updateUser.findByIdAndUpdate(user, updatedUser, {new: true}, function (err, result) {
+                        res.send(course_name + ' added!');
+                    });
+
+                }
             });
+
         }
 
 
     });
-
+    //creates class
+    // will create class with user as instructor and unique courseId
     router.post('/create-class', function(req, res){
         var user = req.user;
         if(!req.hasOwnProperty("body")){
@@ -71,14 +89,26 @@ module.exports = function(router, passport) {
             if(!request.hasOwnProperty("course")){
                 res.status(500).json({message: "invalid post information", send: request.body})
             }
-            else{
-                var newClass = new Class();
-                newClass.course = request.course;
-                newClass.instructor = [user.email];
+            else {
+                //recursively finds unique courseID
+                function uniqueId(res){
+                    var newCourseId = randomString();
+                    var existing_class = require('mongoose').model('Class');
+                    existing_class.findOne({course_id: newCourseId}, function(err){
+                        if(err){
+                            uniqueId();
+                        }
+                        var newClass = new Class();
+                        newClass.course = request.course;
+                        newClass.instructor = [user.email];
+                        newClass.course_id = newCourseId;
 
-                newClass.save(function(err) {
-                    res.status(200).json({message: "success"});
-                });
+                        newClass.save(function(err) {
+                            res.status(200).json({message: newCourseId});
+                        });
+                    })
+                }
+                uniqueId(res);
 
             }
 

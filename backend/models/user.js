@@ -5,7 +5,8 @@ var userSchema = mongoose.Schema({
     email		: String,
     password	: String,
     is_instructor : Boolean,
-    classes: [String]
+    classes: [String],
+    course_ids: [String]
 });
 
 userSchema.methods.generateHash = function(password) {
