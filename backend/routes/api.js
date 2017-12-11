@@ -18,7 +18,7 @@ module.exports = function(router, passport) {
             console.log(req);
             console.log("authenticated");
             console.log(req.isAuthenticated());
-            res.status(200).json({ user: req.user.email});
+            res.status(200).json(req.user);
     });
 
     router.get('/profile',
