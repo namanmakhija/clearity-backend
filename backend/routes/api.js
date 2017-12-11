@@ -14,9 +14,11 @@ module.exports = function(router, passport) {
     router.post('/login',
         passport.authenticate('local-login'),
         function(req, res) {
+            console.log("got info");
+            console.log(req);
+            console.log("authenticated");
             console.log(req.isAuthenticated());
-            res.status(200).json({ user: req.user.email
-        });
+            res.status(200).json({ user: req.user.email});
     });
 
     router.get('/profile',
