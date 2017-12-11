@@ -117,9 +117,34 @@ module.exports = function(router, passport) {
             res.status(500).json({message: "Permission denied"});
 
         }
-
     });
-
+    router.post('/question', function(req, res) {
+        var user = req.user;
+        
+        if(!req.hasOwnProperty("body")){
+            res.status(500).json({message:"body not found"});
+        }
+        var request = req.body;
+        if(!request.hasOwnProperty("course")){
+            res.status(500).json({message: "invalid post information", send: request.body})
+        }
+        else{
+            var current_class = require('mongoose').model('Class');
+            current_class.findOne({course_id: courseId}, function(err, result){
+                if(err || result === null){
+                    res.send('Class not found');
+                }
+                else{
+                    var question = request.question;
+                    current_class.questions.push(question);
+                    current_class.findByIdAndUpdate(user, updatedUser, {new: true}, function (err, result) {
+                        res.send(question + ' added!');
+                    });
+                }
+            })
+        }
+    });
+        
     return router;
 }
 
