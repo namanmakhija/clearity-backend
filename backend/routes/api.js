@@ -1,5 +1,6 @@
 
 var Class = require('../models/class');
+var Session = require('../models/session');
 var randomString = require('random-string');
 module.exports = function(router, passport) {
 
@@ -37,7 +38,128 @@ module.exports = function(router, passport) {
 
     });
 
-    router.post('/start-class', function(req, res){
+    router.post('/end-class',
+        isLoggedIn,
+        function(req, res){
+            var user = req.user;
+            var request = req.body;
+            if(!req.hasOwnProperty("body")){
+                res.status(500).json({message:"body not found"});
+            }
+            var is_instructor = user.is_instructor;
+            if(is_instructor) {
+                var courseId = request.course;
+                var existing_class = require('mongoose').model('Class');
+                // ?
+                var session = require('mongoose').model('Session');
+                console.log(courseId);
+                existing_class.findOne({course_id: courseId, active: true}, function(err, result){
+                    if(err || result === null){
+                        res.status(404).json({message: "Error in processing, either class does not exist or is already active"})
+                    }
+                    else {
+                        // initialization
+                        existing_class.findOneAndUpdate({course_id: courseId}, {$set: {active: false}},function (err, result) {
+                            if (err || result === null){
+                                console.log("not found");
+                                console.log(result);
+                            }
+                            else{
+                                console.log(result);
+                            }
+                        });
+                        var session_num = result.sessions - 1;
+                        session.findOneAndUpdate({course_id:courseId, session_num: session_num}, {$set: {active: false}},
+                            function(err, result){
+                                if(err){
+                                    res.status(500).json({message: "error ending session"})
+
+                                }
+                                else{
+                                    res.status(200).json({message: "successfully ended!"});
+                                }
+
+                            });
+
+
+
+
+                    }
+
+
+                });
+
+
+            }
+            else{
+                res.status(400).json({message: "is not instructor"})
+            }
+
+
+        });
+
+    router.post('/start-class',
+        isLoggedIn,
+        function(req, res){
+        var user = req.user;
+        var request = req.body;
+        if(!req.hasOwnProperty("body")){
+            res.status(500).json({message:"body not found"});
+        }
+        var is_instructor = user.is_instructor;
+        if(is_instructor) {
+            var courseId = request.course;
+            var existing_class = require('mongoose').model('Class');
+            // ?
+            var session = require('mongoose').model('Session');
+            console.log(courseId);
+            existing_class.findOne({course_id: courseId, active: false}, function(err, result){
+                if(err || result === null){
+                    res.status(404).json({message: "Error in processing, either class does not exist or is already active"})
+                }
+                else {
+                    // initialization
+                    var new_sessions = result.sessions + 1;
+                    console.log(courseId);
+                    existing_class.findOneAndUpdate({course_id: courseId}, {$set: {active: true, sessions: new_sessions}},function (err, result) {
+                        if (err || result === null){
+                            console.log("not found");
+                            console.log(result);
+                        }
+                        else{
+                            console.log(result);
+                        }
+                    });
+
+                    var newSession = Session();
+
+                    newSession.course_id = courseId;
+                    newSession.active = true;
+                    newSession.upvotes = 0;
+                    newSession.questions = [];
+                    newSession.session_num = result.sessions;
+                    newSession.save(function(err){
+                        if(err){
+                            res.status(500).json({message: "error creating session"})
+
+                        }
+                        else{
+                            res.status(200).json({message: "successfully created!"});
+                        }
+                    });
+
+
+                }
+
+
+            });
+
+
+        }
+        else{
+            res.status(400).json({message: "is not instructor"})
+        }
+
 
     });
 
@@ -106,6 +228,7 @@ module.exports = function(router, passport) {
                         newClass.course = request.course;
                         newClass.instructor = [user.email];
                         newClass.course_id = newCourseId;
+                        newClass.sessions = 0;
                         newClass.active = false;
 
                         newClass.save(function(err) {
