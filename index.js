@@ -41,7 +41,9 @@ require('./backend/auth/passport')(passport);
 // Initialize cookie sessions
 app.use(cookieParser());
 app.use(cookieSession({
-  keys: ['asdf', 'asdf']
+  keys: ['asdf', 'asdf'],
+    secure: false
+
 }));
 
 // Allow Cross-Origin Resource Sharing (CORS) so that backend and frontend could be put on different servers
