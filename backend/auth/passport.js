@@ -1,5 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
+var socket = require('socket.io');
 
 /**
 * Specifies what strategy we'll use
