@@ -26,13 +26,16 @@ module.exports = function(router, passport) {
         });
     });
 
-    router.get('/logout', function(req, res) {
+    router.get('/logout',
+        function(req, res) {
         req.logOut();
         res.status(200).json({ message: "logged out "});
     });
 
 
-    router.get('/home', function(req, res) {
+    router.get('/home',
+        isLoggedIn,
+        function(req, res) {
         res.status(200).json({course_title: req.user.classes, course_id: req.user.course_ids});
 
     });
