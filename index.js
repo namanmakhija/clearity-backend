@@ -8,6 +8,7 @@ const User = require('./')
 const router = express.Router();
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 app.use(express.static('./backend/static/'));
 app.use(express.static('./frontend/dist/'));
@@ -42,6 +43,17 @@ app.use(cookieParser());
 app.use(cookieSession({
   keys: ['asdf', 'asdf']
 }));
+
+// Allow Cross-Origin Resource Sharing (CORS) so that backend and frontend could be put on different servers
+const allowCrossDomain = function (request, resource, next) {
+    resource.header("Access-Control-Allow-Origin", "*");
+    resource.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
+    resource.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    next();
+};
+app.use(allowCrossDomain);
+app.use(cors());
+app.options('*', cors());
 
 // Initialize Passport
 app.use(passport.initialize()); // Create an instance of Passport
