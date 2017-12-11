@@ -7,7 +7,7 @@
     "start": "nodemon --use_strict index.js",
     "dev": "webpack"
   },
-  "author": "Simon Lu <shlu2@illinois.edu>",
+  "author": "Alvin <ahchang6@illinois.edu>",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.17.1",

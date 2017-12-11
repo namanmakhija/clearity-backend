@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
 const passport = require('passport')
 const config = require('./config');
@@ -13,11 +12,6 @@ const cors = require('cors');
 app.use(express.static('./backend/static/'));
 app.use(express.static('./frontend/dist/'));
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-
-app.use(bodyParser.json());
 
 // Static routes
 app.route('/').get(function(req, res) {
@@ -31,7 +25,7 @@ app.route('/register').get(function(req, res) {
 });
 app.route('/dashboard').get(function(req,res) {
   return res.sendFile(path.join(__dirname, './backend/static/index.html'));
-})
+});
 
 /* New things ================================================================ */
 
@@ -56,8 +50,18 @@ const allowCrossDomain = function (request, resource, next) {
 app.use(allowCrossDomain);
 app.use(cors());
 app.options('*', cors());
-
 // Initialize Passport
+var session = require("express-session");
+const bodyParser = require("body-parser");
+app.use(express.static("public"));
+app.use(session({ secret: "cats" }));
+app.use(bodyParser.urlencoded({ extended: false }));
+/*app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(bodyParser.json());*/
+
 app.use(passport.initialize()); // Create an instance of Passport
 app.use(passport.session());
 
