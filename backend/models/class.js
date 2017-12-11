@@ -4,7 +4,8 @@ var bcrypt = require('bcrypt');
 var classSchema = mongoose.Schema({
     course		: String,
     instructor  : [String],
-    course_id   : String
+    course_id   : String,
+    active      : Boolean
 });
 
 classSchema.methods.generateHash = function(password) {

@@ -37,6 +37,10 @@ module.exports = function(router, passport) {
 
     });
 
+    router.post('/start-class', function(req, res){
+
+    });
+
     router.put('/add-class', function(req, res){
         var user = req.user;
 
@@ -102,6 +106,7 @@ module.exports = function(router, passport) {
                         newClass.course = request.course;
                         newClass.instructor = [user.email];
                         newClass.course_id = newCourseId;
+                        newClass.active = false;
 
                         newClass.save(function(err) {
                             res.status(200).json({message: newCourseId});
