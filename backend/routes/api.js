@@ -222,6 +222,45 @@ module.exports = function(router, passport) {
 
 
     });
+
+    router.get('/statistic', function(req, res){
+        function findIndicesOfMax(inp, count) {
+            var outp = new Array();
+            for (var i = 0; i < inp.length; i++) {
+                outp.push(i);
+                if (outp.length > count) {
+                    outp.sort(function(a, b) { return inp[b] - inp[a]; });
+                    outp.pop();
+                }
+            }
+            return outp;
+        }
+        var course_id = req.course;
+        var num_questions = req.num;
+        var session = require('mongoose').model('Session');
+        session.find({course_id: course_id}), function(err, result){
+            var final_upvotes = [];
+            var final_questions = [];
+            for(var i = 0; i < result.length; i++){
+                final_upvotes.concat(result[i].upvotes);
+                final_questions.concat((result[i].questions))
+
+            }
+            var res_upvotes = findIndicesOfMax(final_upvotes, num_questions);
+            var res_questions = [];
+
+            for(var i = 0; i < res_upvotes.length; i++){
+                res_questions.push(final_questions[res_upvotes[i]]);
+
+            }
+            res.status(200).json({highest_classes: res_questions})
+
+
+
+
+        }
+
+    };
     //creates class
     // will create class with user as instructor and unique courseId
     router.post('/create-class', function(req, res){
