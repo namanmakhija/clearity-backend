@@ -138,7 +138,7 @@ module.exports = function(router, passport) {
 
                     newSession.course_id = courseId;
                     newSession.active = true;
-                    newSession.upvotes = 0;
+                    newSession.upvotes = [];
                     newSession.questions = [];
                     newSession.session_num = result.sessions;
                     newSession.save(function(err){
@@ -251,7 +251,7 @@ module.exports = function(router, passport) {
     });
     router.post('/question', function(req, res) {
         var user = req.user;
-        
+
         if(!req.hasOwnProperty("body")){
             res.status(500).json({message:"body not found"});
         }
@@ -260,15 +260,20 @@ module.exports = function(router, passport) {
             res.status(500).json({message: "invalid post information", send: request.body})
         }
         else{
-            var current_class = require('mongoose').model('Class');
-            current_class.findOne({course_id: courseId}, function(err, result){
+            var courseId = request.course;
+            var current_session = require('mongoose').model('Session');
+            current_session.findOne({course_id: courseId, active: true}, function(err, result){
                 if(err || result === null){
                     res.send('Class not found');
                 }
                 else{
                     var question = request.question;
-                    current_class.questions.push(question);
-                    current_class.findByIdAndUpdate(user, updatedUser, {new: true}, function (err, result) {
+                    var questions = result.questions;
+                    questions.push(question);
+                    var upvotes = result.upvotes;
+                    upvotes.push(0);
+                    current_session.findOneAndUpdate({course_id: courseId, active: true},
+                        {$set: {questions: questions, upvotes: upvotes}}, function (err, result) {
                         res.send(question + ' added!');
                     });
                 }
