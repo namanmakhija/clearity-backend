@@ -43,6 +43,21 @@ module.exports = function(router, passport) {
 
     });
 
+    router.get('/active',
+        function(req, res){
+            var existing_class = require('mongoose').model('Class');
+            existing_class.find({active: true}, function(req ,result){
+                var activeClasses = [];
+                for(var i = 0;i<result.length; i++){
+                    activeClasses.push(result[i].course_id);
+
+                }
+                res.status(200).json({activeClasses: activeClasses})
+            })
+
+
+        });
+
     router.post('/end-class',
         isLoggedIn,
         function(req, res){
