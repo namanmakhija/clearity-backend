@@ -309,7 +309,31 @@ module.exports = function(router, passport) {
 
                         newClass.save(function(err) {
                             res.status(200).json({message: newCourseId});
+                            var updateUser = require('mongoose').model('User');
+                            var updatedUser = user;
+                            // course will be the courseId only
+                            var courseId = request.course;
+                            // will check if class exists
+                            var existing_class = require('mongoose').model('Class');
+                            existing_class.findOne({course_id: newCourseId}, function(err, result){
+                                if(err || result === null){
+                                    res.send('Class not found');
+                                }
+                                else{
+                                    var course_name = result.course;
+                                    // adds course title
+                                    updatedUser.classes.push(request.course);
+                                    // adds course id
+                                    updatedUser.course_ids.push(newCourseId);
+
+                                    updateUser.findByIdAndUpdate(user, updatedUser, {new: true}, function (err, result) {
+                                        res.status(200).json({added: course_name, user: updatedUser});
+                                    });
+
+                                }
+                            });
                         });
+
                     })
                 }
                 uniqueId(res);
