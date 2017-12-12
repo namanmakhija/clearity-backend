@@ -217,7 +217,7 @@ module.exports = function(router, passport) {
             var existing_class = require('mongoose').model('Class');
             existing_class.findOne({course_id: courseId}, function(err, result){
                 if(err || result === null){
-                    res.send('Class not found');
+                    res.status(404).send('Class not found');
                 }
                 else{
                     var course_name = result.course;
