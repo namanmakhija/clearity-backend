@@ -258,7 +258,7 @@ module.exports = function(router, passport) {
 
         }
 
-    };
+    });
     //creates class
     // will create class with user as instructor and unique courseId
     router.post('/create-class', function(req, res){
