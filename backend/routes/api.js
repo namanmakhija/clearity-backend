@@ -211,7 +211,7 @@ module.exports = function(router, passport) {
                     updatedUser.course_ids.push(courseId);
 
                     updateUser.findByIdAndUpdate(user, updatedUser, {new: true}, function (err, result) {
-                        res.send(course_name + ' added!');
+                        res.status(200).send(course_name);
                     });
 
                 }
