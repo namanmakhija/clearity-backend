@@ -181,6 +181,23 @@ module.exports = function(router, passport) {
 
     });
 
+    router.post('/upvote', function(req, res){
+        var user = req.body.user;
+        var course_id = req.body.course;
+        var index = req.body.index;
+        var session = require('mongoose').model('Session');
+        session.findOne({course_id: course_id, active: true}, function(err, result){
+            var upvotes_array = result.upvotes;
+            upvotes_array[index] += 1;
+            session.findOneAndUpdate({course_id: course_id, active: true}, {$set: {upvotes: upvotes_array}}, function(err, resu){
+                if (err || resu === null){
+                    res.status(404).json({message: "notfound"});
+                }
+                res.status(200).json({message: "added"});
+            });
+        });
+    });
+
     router.put('/add-class', function(req, res){
         var user = req.body.user;
 
