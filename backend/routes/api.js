@@ -474,8 +474,9 @@ module.exports = function(router, passport) {
     })
 
     router.get('/sessions', function(req, res){
+        console.log(req.query);
         var courseId = req.query.course;
-        var current_session = require('mongoose').model('Session');
+        var current_sessions = require('mongoose').model('Session');
         current_sessions.find({course_id: courseId}, function(err, result){
             if(err || result === null){
                 res.send('Class not found');
