@@ -37,9 +37,9 @@ module.exports = function(router, passport) {
 
 
     router.get('/home',
-        isLoggedIn,
         function(req, res) {
-        res.status(200).json({course_title: req.user.classes, course_id: req.user.course_ids});
+        var user = req.body.user;
+        res.status(200).json({course_title: user.classes, course_id: user.course_ids});
 
     });
 
@@ -59,9 +59,8 @@ module.exports = function(router, passport) {
         });
 
     router.post('/end-class',
-        isLoggedIn,
         function(req, res){
-            var user = req.user;
+            var user = req.body.user;
             var request = req.body;
             if(!req.hasOwnProperty("body")){
                 res.status(500).json({message:"body not found"});
@@ -119,9 +118,8 @@ module.exports = function(router, passport) {
         });
 
     router.post('/start-class',
-        isLoggedIn,
         function(req, res){
-        var user = req.user;
+        var user = req.body.user;
         var request = req.body;
         if(!req.hasOwnProperty("body")){
             res.status(500).json({message:"body not found"});
@@ -184,7 +182,7 @@ module.exports = function(router, passport) {
     });
 
     router.put('/add-class', function(req, res){
-        var user = req.user;
+        var user = req.body.user;
 
         if(!req.hasOwnProperty("body")){
             res.status(500).json({message:"body not found"});
@@ -264,7 +262,7 @@ module.exports = function(router, passport) {
     //creates class
     // will create class with user as instructor and unique courseId
     router.post('/create-class', function(req, res){
-        var user = req.user;
+        var user = req.body.user;
         if(!req.hasOwnProperty("body")){
             res.status(500).json({message:"body not found"});
         }
@@ -306,7 +304,7 @@ module.exports = function(router, passport) {
         }
     });
     router.post('/question', function(req, res) {
-        var user = req.user;
+        var user = req.body.user;
 
         if(!req.hasOwnProperty("body")){
             res.status(500).json({message:"body not found"});
