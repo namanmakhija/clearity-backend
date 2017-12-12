@@ -335,6 +335,22 @@ module.exports = function(router, passport) {
         }
     });
 
+    router.get('/question', function(req, res) {
+        console.log(req.query);
+        var courseId = req.query.course;
+        var current_session = require('mongoose').model('Session');
+        current_session.findOne({course_id: courseId, active: true}, function(err, result){
+            if(err || result === null){
+                res.send('Class not found');
+            }
+            else{
+                var questions = result.questions;
+                var upvotes = result.upvotes;
+                res.status(200).send({data: {questions: questions, upvotes: upvotes}});
+            }
+        })
+    });
+
     return router;
 }
 
