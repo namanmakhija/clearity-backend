@@ -308,7 +308,6 @@ module.exports = function(router, passport) {
                         newClass.active = false;
 
                         newClass.save(function(err) {
-                            res.status(200).json({message: newCourseId});
                             var updateUser = require('mongoose').model('User');
                             var updatedUser = user;
                             // course will be the courseId only
@@ -322,12 +321,18 @@ module.exports = function(router, passport) {
                                 else{
                                     var course_name = result.course;
                                     // adds course title
-                                    updatedUser.classes.push(request.course);
+                                    var classes = user.classes;
+                                    classes.push(request.course);
                                     // adds course id
-                                    updatedUser.course_ids.push(newCourseId);
-
+                                    var course_ids = user.course_ids;
+                                    course_ids.push(newCourseId);
+                                    /*
                                     updateUser.findByIdAndUpdate(user, updatedUser, {new: true}, function (err, result) {
                                         res.status(200).json({added: course_name, user: updatedUser});
+                                    });
+                                    */
+                                    updateUser.findOneAndUpdate({email:user.email}, {$set: {classes: classes, course_ids: course_ids}}, {new: true}, function (err, result) {
+                                        res.status(200).json({added: course_name, user: result});
                                     });
 
                                 }
