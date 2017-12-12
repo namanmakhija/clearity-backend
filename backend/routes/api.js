@@ -308,7 +308,6 @@ module.exports = function(router, passport) {
                         newClass.active = false;
 
                         newClass.save(function(err) {
-                            res.status(200).json({message: newCourseId});
                             var updateUser = require('mongoose').model('User');
                             var updatedUser = user;
                             // course will be the courseId only
