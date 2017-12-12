@@ -181,7 +181,7 @@ module.exports = function(router, passport) {
 
     });
 
-    router.post('/add-class', function(req, res){
+    router.put('/add-class', function(req, res){
         var user = req.body.user;
 
         if(!req.hasOwnProperty("body")){
