@@ -368,6 +368,56 @@ module.exports = function(router, passport) {
         })
     });
 
+    router.post('/ans-question', function(req, res){
+        if(!req.hasOwnProperty("body")){
+            res.status(500).json({message:"body not found"});
+        }
+        var request = req.body;
+        if(!request.hasOwnProperty("course")){
+            res.status(500).json({message: "invalid post information", send: request.body})
+        }
+        else{
+            var courseId = request.course;
+            var index = request.index;
+            var current_session = require('mongoose').model('Session');
+            current_session.findOne({course_id: courseId, active: true}, function(err, result){
+                if(err || result === null){
+                    res.send('Class not found');
+                }
+                else{
+
+                    var questions = result.questions;
+                    var upvotes = result.upvotes;
+                    var ansQns = result.answeredQuestions;
+                    var ansUv = result.ansUpvotes;
+                    var question = questions[index];
+                    var upvote = upvotes[index];
+                    questions.splice(index , 1);
+                    upvotes.splice(index , 1);
+                    ansQns.push(question);
+                    ansUv.push(upvote);
+                    current_session.findOneAndUpdate({course_id: courseId, active: true},
+                        {$set: {questions: questions, upvotes: upvotes, answeredQuestions: ansQns, ansUpvotes: ansUv}}, function (err, result) {
+                        res.send(question + ' answered!');
+                    });
+                }
+            })
+        }
+    })
+
+    router.get('/sessions', function(req, res){
+        var courseId = req.query.course;
+        var current_session = require('mongoose').model('Session');
+        current_sessions.find({course_id: courseId}, function(err, result){
+            if(err || result === null){
+                res.send('Class not found');
+            }
+            else{
+                res.status(200).send({sessions: result});
+            }
+        });
+    });
+
     return router;
 }
 
