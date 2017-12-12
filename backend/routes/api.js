@@ -181,7 +181,7 @@ module.exports = function(router, passport) {
 
     });
 
-    router.put('/add-class', function(req, res){
+    router.post('/add-class', function(req, res){
         var user = req.body.user;
 
         if(!req.hasOwnProperty("body")){
@@ -210,7 +210,7 @@ module.exports = function(router, passport) {
                     updatedUser.course_ids.push(courseId);
 
                     updateUser.findByIdAndUpdate(user, updatedUser, {new: true}, function (err, result) {
-                        res.send(course_name + ' added!');
+                        res.status(200).send(course_name);
                     });
 
                 }
