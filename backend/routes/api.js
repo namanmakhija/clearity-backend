@@ -405,6 +405,43 @@ module.exports = function(router, passport) {
         }
     })
 
+    router.post('/save-question', function(req, res){
+        if(!req.hasOwnProperty("body")){
+            res.status(500).json({message:"body not found"});
+        }
+        var request = req.body;
+        if(!request.hasOwnProperty("course")){
+            res.status(500).json({message: "invalid post information", send: request.body})
+        }
+        else{
+            var courseId = request.course;
+            var index = request.index;
+            var current_session = require('mongoose').model('Session');
+            current_session.findOne({course_id: courseId, active: true}, function(err, result){
+                if(err || result === null){
+                    res.send('Class not found');
+                }
+                else{
+
+                    var questions = result.questions;
+                    var upvotes = result.upvotes;
+                    var savedQns = result.savedQuestions;
+                    var savedUv = result.savedUpvotes;
+                    var question = questions[index];
+                    var upvote = upvotes[index];
+                    questions.splice(index , 1);
+                    upvotes.splice(index , 1);
+                    savedQns.push(question);
+                    savedUv.push(upvote);
+                    current_session.findOneAndUpdate({course_id: courseId, active: true},
+                        {$set: {questions: questions, upvotes: upvotes, savedQuestions: savedQns, savedUpvotes: savedUv}}, function (err, result) {
+                        res.send(question + ' saved!');
+                    });
+                }
+            })
+        }
+    })
+
     router.get('/sessions', function(req, res){
         var courseId = req.query.course;
         var current_session = require('mongoose').model('Session');
