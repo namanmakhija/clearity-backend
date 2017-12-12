@@ -36,9 +36,9 @@ module.exports = function(router, passport) {
     });
 
 
-    router.get('/home',
+    router.post('/home',
         function(req, res) {
-        var user = req.body.user;
+        var user = req.body.data.user;
         res.status(200).json({course_title: user.classes, course_id: user.course_ids});
 
     });
@@ -60,7 +60,7 @@ module.exports = function(router, passport) {
 
     router.post('/end-class',
         function(req, res){
-            var user = req.body.user;
+            var user = req.body.data.user;
             var request = req.body;
             if(!req.hasOwnProperty("body")){
                 res.status(500).json({message:"body not found"});
@@ -119,7 +119,7 @@ module.exports = function(router, passport) {
 
     router.post('/start-class',
         function(req, res){
-        var user = req.body.user;
+        var user = req.body.data.user;
         var request = req.body;
         if(!req.hasOwnProperty("body")){
             res.status(500).json({message:"body not found"});
@@ -182,7 +182,7 @@ module.exports = function(router, passport) {
     });
 
     router.put('/add-class', function(req, res){
-        var user = req.body.user;
+        var user = req.body.data.user;
 
         if(!req.hasOwnProperty("body")){
             res.status(500).json({message:"body not found"});
@@ -262,7 +262,7 @@ module.exports = function(router, passport) {
     //creates class
     // will create class with user as instructor and unique courseId
     router.post('/create-class', function(req, res){
-        var user = req.body.user;
+        var user = req.body.data.user;
         if(!req.hasOwnProperty("body")){
             res.status(500).json({message:"body not found"});
         }
@@ -304,7 +304,7 @@ module.exports = function(router, passport) {
         }
     });
     router.post('/question', function(req, res) {
-        var user = req.body.user;
+        var user = req.body.data.user;
 
         if(!req.hasOwnProperty("body")){
             res.status(500).json({message:"body not found"});
