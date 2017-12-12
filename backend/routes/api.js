@@ -346,7 +346,7 @@ module.exports = function(router, passport) {
             else{
                 var questions = result.questions;
                 var upvotes = result.upvotes;
-                res.status(200).send({data: {questions: questions, upvotes: upvotes}});
+                res.status(200).send({questions: questions, upvotes: upvotes});
             }
         })
     });
