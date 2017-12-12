@@ -1,10 +1,10 @@
 {
-  "name": "passport_demo_2017",
+  "name": "Clearity-Backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --use_strict index.js",
+    "start": "nodemon --use_strict --exec node index.js",
     "dev": "webpack"
   },
   "author": "Alvin <ahchang6@illinois.edu>",
@@ -29,8 +29,9 @@
     "semantic-ui-react": "^0.76.0",
     "validator": "^9.1.1",
     "socket.io": "^2.0.4",
-    "random-string":"^0.2.0",
-    "cors":"^2.8.4"
+    "random-string": "^0.2.0",
+    "cors": "^2.8.4",
+    "nodemon": "^1.12.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.6",
