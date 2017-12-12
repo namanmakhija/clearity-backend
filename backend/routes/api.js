@@ -279,6 +279,7 @@ module.exports = function(router, passport) {
     //creates class
     // will create class with user as instructor and unique courseId
     router.post('/create-class', function(req, res){
+        console.log(req.body);
         var user = req.body.user;
         if(!req.hasOwnProperty("body")){
             res.status(500).json({message:"body not found"});
@@ -296,6 +297,7 @@ module.exports = function(router, passport) {
                     var existing_class = require('mongoose').model('Class');
                     existing_class.findOne({course_id: newCourseId}, function(err){
                         if(err){
+                            console.log(err);
                             uniqueId();
                         }
                         var newClass = new Class();
